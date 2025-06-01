@@ -1,0 +1,150 @@
+SQL> set linesize 750;
+SQL> select * from Auteurs a, Livres l where a.auteur_id=l.auteur_id ;
+
+ AUTEUR_ID NOM                                                                                                  PRENOM
+    NATIONALITE                                   LIVRE_ID TITRE
+   ANNEE_PUBLICATION GENRE                                                AUTEUR_ID
+---------- ---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- -------------------------------------------------- ---------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------- -------------------------------------------------- ----------
+         1 Hemingway                                                                                            Ernest
+    Am├®ricaine                                          1 The Old Man and the Sea
+1952 Roman                                                        1
+         2 Tolkien                                                                                              J.R.R.
+    Anglaise                                                     3 The Hobbit
+1937 Fantasy                                                      2
+         3 Rowling                                                                                              J.K.
+    Britannique                                          4 Harry Potter and the Sorceres Stone
+1997 Fantasy                                                      3
+         3 Rowling                                                                                              J.K.
+    Britannique                                          5 The Ocean
+1986 Roman                                                        3
+
+
+
+SQL> select genre , count(livre_id) from Livres  group by genre;
+
+GENRE                                              COUNT(LIVRE_ID)
+-------------------------------------------------- ---------------
+Fantasy                                                          2
+Roman                                                            2
+
+
+
+SQL> select l.titre , u.nom , to_char(e.date_emprunt , 'DD-MON-YYYY') , to_char(e.date_retour , 'DD-MON-YYYY')  from Livres l , Emprunts e , Utilisateurs u
+where e.utilisateur_id = u.utilisateur_id and e.livre_id = l.livre_id ;
+
+TITRE                                                                                                                                                       NOM                                                                                                   TO_CHAR(E.DATE_EMPRUNT,'DD-M TO_CHAR(E.DATE_RETOUR,'DD-MO
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---------------------------- ----------------------------
+Harry Potter and the Sorceres Stone
+Dupont                                                                                        10-JANV.-2024                10-F╔VR.-2024
+The Old Man and the Sea
+Martin                                                                                        05-JANV.-2024                15-JANV.-2024
+The Hobbit
+Durand                                                                                        01-F╔VR.-2024                15-F╔VR.-2024
+The Old Man and the Sea
+Durand                                                                                        10-JANV.-2025
+Harry Potter and the Sorceres Stone
+Durand                                                                                        10-MARS -2024                15-AVR. -2024
+
+
+
+
+SQL> select l.titre , u.nom , to_char(e.date_emprunt , 'DD MON YYYY') , to_char(e.date_retour , 'DD MON YYYY')  from Livres l , Emprunts e , Utilisateurs u where e.utilisateur_id = u.utilisateur_id and e.livre_id = l.livre_id ;
+
+TITRE
+NOM                                                                                                   TO_CHAR(E.DATE_EMPRUNT,'DDMO TO_CHAR(E.DATE_RETOUR,'DDMON
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---------------------------- ----------------------------
+Harry Potter and the Sorceres Stone
+Dupont                                                                                        10 JANV. 2024                10 F╔VR. 2024
+The Old Man and the Sea
+Martin                                                                                        05 JANV. 2024                15 JANV. 2024
+The Hobbit
+Durand                                                                                        01 F╔VR. 2024                15 F╔VR. 2024
+The Old Man and the Sea
+Durand                                                                                        10 JANV. 2025
+Harry Potter and the Sorceres Stone
+Durand                                                                                        10 MARS  2024                15 AVR.  2024
+
+
+
+
+SQL> select l.titre , u.nom, e.date_emprunt from Livres l ,Utilisateurs u,Em
+prunts e where l.livre_id=e.livre_id and u.utilisateur_id=e.utilisateur_id and e.date_retour is null and sysdate - e.date_emprunt > 30;
+
+TITRE                                                                       NOM
+     DATE_EMP
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- --------
+The Old Man and the Sea
+Durand
+     10/01/25
+
+
+
+SQL> select u.nom , count(e.livre_id) from Utilisateurs u, Emprunts e where
+e.utilisateur_id=u.utilisateur_id group by u.nom having count(e.livre_id)>2;
+
+
+NOM
+    COUNT(E.LIVRE_ID)
+---------------------------------------------------------------------------------------------------- -----------------
+Durand
+    3
+
+
+
+SQL> select u.nom , u.prenom, u.email from Utilisateurs u where u.utilisateu
+r_id not in(select utilisateur_id from Emprunts);
+
+NOM
+    PRENOM
+ EMAIL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------
+Laura
+    Claud
+ Laura.Claud@example.com
+
+
+SQL> select l.titre , a.nom from Livres l , Auteurs a where a.auteur_id=l.au
+teur_id and l.livre_id not in(select livre_id from Emprunts);
+
+TITRE
+NOM
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------
+The Ocean
+Rowling
+
+
+
+SQL> select count(e.livre_id) , l.titre, u.nom from Utilisateurs u , Livres
+l , Emprunts e where u.utilisateur_id=e.utilisateur_id and l.livre_id=e.livre_id group by u.nom , l.titre ;
+
+COUNT(E.LIVRE_ID) TITRE                                                       NOM
+----------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------
+                1 The Hobbit
+  Durand
+                1 The Old Man and the Sea
+  Martin
+                1 The Old Man and the Sea
+  Durand
+                1 Harry Potter and the Sorceres Stone
+  Durand
+                1 Harry Potter and the Sorceres Stone
+  Dupont
+
+
+SQL> select titre , annee_publication from Livres where annee_publication=(s
+elect max(annee_publication) from Livres);
+
+TITRE
+ANNEE_PUBLICATION
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------------
+Harry Potter and the Sorceres Stone
+     1997
+//manajmouch na3mlou max fi loula khater m3andich group by lena donc na3mel select okhra 
+
+SQL> select u.nom  from Utilisateurs u , Livres l ,Emprunts e where u.utilisateur_id=e.utilisateur_id and l.livre_id=e.livre_id and l.genre='Roman';
+
+NOM
+----------------------------------------------------------------------------------------------------
+Martin
+Durand
+
