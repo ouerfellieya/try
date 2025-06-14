@@ -1,7 +1,7 @@
 SQL> set linesize 750;
 SQL> select * from Auteurs a, Livres l where a.auteur_id=l.auteur_id ;
 
-
+//sdcvcjfdvnkfvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 SQL> select l.titre , u.nom , to_char(e.date_emprunt , 'DD-MON-YYYY') , to_char(e.date_retour , 'DD-MON-YYYY')  from Livres l , Emprunts e , Utilisateurs u
 where e.utilisateur_id = u.utilisateur_id and e.livre_id = l.livre_id ;
