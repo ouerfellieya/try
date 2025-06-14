@@ -32,5 +32,5 @@ DBMS_OUTPUT.PUT_LINE('le prix de article  après le mise à jour '||  prix_v);
 end;
 /
 
-//nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
-//n,b hjbhjbdhcbhjebchzerbcfhrbefhre'b(fi('h))
+fgcnfvbbbbbbbbbbbbbbbbbbbbvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+ygyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
