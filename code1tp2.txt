@@ -1,0 +1,34 @@
+set serveroutput on 
+   ACCEPT x number  PROMPT'entrez le numéro de article ';
+declare
+   vente    article2.prix_vente%TYPE;
+   categorie  categorie_article2.nom_categorie%TYPE;
+   prix_v article2.prix_vente%TYPE;
+   a number ;
+
+begin 
+   a:=&x;
+   select  prix_vente,nom_categorie into vente,categorie from article2,categorie_article2 where article2.num_categorie=categorie_article2.num_categorie and article2.num_art=a;
+   DBMS_OUTPUT.PUT_LINE('le prix de article avant  le mise à jour '||  vente);
+if(categorie='Machine a laver')then 
+   prix_v:=vente-((vente*10)/100);
+
+
+elsif (vente>400 and categorie='four' )then 
+    prix_v:=vente-((vente*5)/100);
+    
+
+elsif( vente >350 and categorie='hotte' ) then
+     prix_v:=vente-((vente*3)/100); 
+  
+else
+   DBMS_OUTPUT.PUT_LINE('artcile ne peut pas être traitée');
+
+end if;
+
+update article2 set prix_vente= prix_v where num_art=a;
+DBMS_OUTPUT.PUT_LINE('le prix de article  après le mise à jour '||  prix_v);
+
+end;
+/
+

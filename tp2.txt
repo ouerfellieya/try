@@ -1,32 +1,6 @@
 SQL> set linesize 750;
 SQL> select * from Auteurs a, Livres l where a.auteur_id=l.auteur_id ;
 
- AUTEUR_ID NOM                                                                                                  PRENOM
-    NATIONALITE                                   LIVRE_ID TITRE
-   ANNEE_PUBLICATION GENRE                                                AUTEUR_ID
----------- ---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- -------------------------------------------------- ---------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------- -------------------------------------------------- ----------
-         1 Hemingway                                                                                            Ernest
-    Am├®ricaine                                          1 The Old Man and the Sea
-1952 Roman                                                        1
-         2 Tolkien                                                                                              J.R.R.
-    Anglaise                                                     3 The Hobbit
-1937 Fantasy                                                      2
-         3 Rowling                                                                                              J.K.
-    Britannique                                          4 Harry Potter and the Sorceres Stone
-1997 Fantasy                                                      3
-         3 Rowling                                                                                              J.K.
-    Britannique                                          5 The Ocean
-1986 Roman                                                        3
-
-
-
-SQL> select genre , count(livre_id) from Livres  group by genre;
-
-GENRE                                              COUNT(LIVRE_ID)
--------------------------------------------------- ---------------
-Fantasy                                                          2
-Roman                                                            2
-
 
 
 SQL> select l.titre , u.nom , to_char(e.date_emprunt , 'DD-MON-YYYY') , to_char(e.date_retour , 'DD-MON-YYYY')  from Livres l , Emprunts e , Utilisateurs u
